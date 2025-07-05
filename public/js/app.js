@@ -62,12 +62,12 @@ function settingsModal(showModalStream, themeStream = currentTheme) {
     modal.appendChild(closeBtn);
 
     // Create form inputs
-    const content = container([
+    const content = column([container(
+      [
       editText(githubUsernameStream, { placeholder: 'GitHub Username', margin: '0.5rem 0' }, themeStream),
-      editText(githubTokenStream, { placeholder: 'GitHub Token', margin: '0.5rem 0', type: 'password' }, themeStream),
+      editText(githubTokenStream, {type: 'password', placeholder: 'GitHub Token', margin: '0.5rem 0' }, themeStream),
       editText(repoOwnerStream, { placeholder: 'Repository Owner', margin: '0.5rem 0' }, themeStream),
-      editText(repoNameStream, { placeholder: 'Repository Name', margin: '0.5rem 0' }, themeStream),
-      editText(repoPathStream, { placeholder: 'Repository Path', margin: '0.5rem 0' }, themeStream),
+      editText(repoNameStream, { placeholder: 'Repository Name', margin: '0.5rem 0' }, themeStream),     
       (() => {
         const isSaving = new Stream(false);
         const saveLabel = derived(isSaving, val => val ? "Saving..." : "Save");
@@ -84,14 +84,15 @@ function settingsModal(showModalStream, themeStream = currentTheme) {
           localStorage.setItem('githubToken', githubTokenEncoded);
           localStorage.setItem('repoOwner', repoOwnerStream.get());
           localStorage.setItem('repoName', repoNameStream.get());
-          localStorage.setItem('repoPath', repoPathStream.get());
+          localStorage.setItem('repoPath', repoNameStream.get());
 
           // Close modal after saving
           showModalStream.set(false);
           isSaving.set(false);
         }, { margin: '0.5rem 0', rounded: true }, themeStream);
-      })()
-    ], {});
+      }
+    )()
+    ], {})]);
 
     modal.appendChild(content);
     overlay.appendChild(modal);

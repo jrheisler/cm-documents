@@ -56,9 +56,9 @@ async function fetchDocumentIndex() {
   return [];
 }
 
+
 // Function to upload a file to GitHub and get the file URL
-// Function to upload a file to GitHub and get the file URL
-async function uploadFileToGitHub(file, title) {
+async function uploadFileToGitHub(file, title) {  
   const base64Content = await getBase64(file); // Get the Base64 string of the file
   const filePath = `${repoPath}/${encodeURIComponent(title)}`;
 
@@ -267,6 +267,7 @@ function uploadFormContainer(documentsStream, showFormStream, knownCategoriesStr
     const saveLabel = derived(isSaving, val => val ? "Saving..." : "Save");
 
     return reactiveButton(saveLabel, async () => {
+      console.log("270", repoName + repoPath);
         if (isSaving.get()) return;
         isSaving.set(true);
 
