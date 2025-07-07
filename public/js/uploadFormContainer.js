@@ -211,10 +211,9 @@ function uploadFormContainer(documentsStream, showFormStream, knownCategoriesStr
   const fileStream = new Stream(null);
   const categoryStream = new Stream('');
   const metaStream = new Stream('');
-  
 
   fileStream.subscribe(file => {
-    if (file) titleStream.set(file.name);
+    if (file) titleStream.set(file.name); // Set file name as title
   });
 
   return conditional(showFormStream, () => {
@@ -251,85 +250,111 @@ function uploadFormContainer(documentsStream, showFormStream, knownCategoriesStr
     closeBtn.addEventListener('click', () => showFormStream.set(false));
     modal.appendChild(closeBtn);
 
+    // Drop zone for the file
+    const dropZone = document.createElement('div');
+    dropZone.textContent = 'Drag and drop a file here';
+    dropZone.style.border = '2px dashed #ccc';
+    dropZone.style.padding = '20px';
+    dropZone.style.textAlign = 'center';
+    dropZone.style.cursor = 'pointer';
+    dropZone.style.marginBottom = '1rem';
+    dropZone.style.borderRadius = '8px';
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.style.backgroundColor = '#f0f0f0'; // Feedback
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.style.backgroundColor = ''; // Reset
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0]; // Get the dropped file
+      if (file) {
+        fileStream.set(file);
+        titleStream.set(file.name); // Pre-fill title with file name
+        showFormStream.set(true); // Open modal
+      }
+    });
+
+    // Form content with the fields
     const content = container([
-      fileInput(fileStream, { margin: '0.5rem 0' }, themeStream),
-      editText(titleStream, { placeholder: 'Title', margin: '0.5rem 0' }, themeStream),
-      dropdownStream(statusStream, {
+      dropZone, // Add drop zone to modal content
+      row([fileInput(fileStream, { margin: '0.5rem 0' }, themeStream), spacer()]),
+      row([editText(titleStream, { placeholder: 'Title', margin: '0.5rem 0' }, themeStream), spacer()]),
+      row([dropdownStream(statusStream, {
         choices: ['draft', 'under review', 'approved', 'final', 'archived'],
         margin: '0.5rem 0'
-      }, themeStream),
-      editableDropdown(categoryStream, knownCategoriesStream, themeStream),
-      editText(metaStream, { placeholder: 'Meta data', margin: '0.5rem 0' }, themeStream),
-      // === Save Button Handler ===
-       // === Save Button Handler ===
-    (() => {
-    const isSaving = new Stream(false);
-    const saveLabel = derived(isSaving, val => val ? "Saving..." : "Save");
+      }, themeStream), spacer()]),
+      row([editableDropdown(categoryStream, knownCategoriesStream, themeStream), spacer()]),
+      row([editText(metaStream, { placeholder: 'Meta data', margin: '0.5rem 0' }, themeStream), spacer()]),
+      (() => {
+        const isSaving = new Stream(false);
+        const saveLabel = derived(isSaving, val => val ? "Saving..." : "Save");
 
-    return reactiveButton(saveLabel, async () => {
-      console.log("270", repoName + repoPath);
-        if (isSaving.get()) return;
-        isSaving.set(true);
+        return reactiveButton(saveLabel, async () => {
+          if (isSaving.get()) return;
+          isSaving.set(true);
 
-        const existing = documentsStream.get().find(doc => doc.title === titleStream.get());
-        // Inside your async save handler...
+          const existing = documentsStream.get().find(doc => doc.title === titleStream.get());
 
-        if (existing) {
-          const confirmReplace = await showConfirmationDialog(
-            "A document with this title already exists. Uploading a new version?",
-            themeStream // Pass your themeStream
-          );
-          if (!confirmReplace) {
+          if (existing) {
+            const confirmReplace = await showConfirmationDialog(
+              "A document with this title already exists. Uploading a new version?",
+              themeStream
+            );
+            if (!confirmReplace) {
+              isSaving.set(false);
+              return;
+            }
+          }
+
+          const file = fileStream.get();
+          if (!file) {
+            alert("No file selected");
             isSaving.set(false);
             return;
           }
-        }
 
+          const title = titleStream.get().trim();
+          const docs = documentsStream.get();
+          const index = docs.findIndex(doc => doc.title === title);
+          const now = new Date().toISOString();
 
-        const file = fileStream.get();
-        if (!file) {
-        alert("No file selected");
-        isSaving.set(false);
-        return;
-        }
+          const newDoc = {
+            meta: metaStream.get(),
+            category: categoryStream.get(),
+            title,
+            status: statusStream.get(),
+            filename: file.name,
+            createdAt: index >= 0 ? docs[index].createdAt : now,
+            lastUpdated: now,
+            id: title,
+          };
 
-        const title = titleStream.get().trim();
-        const docs = documentsStream.get();
-        const index = docs.findIndex(doc => doc.title === title);
-        const now = new Date().toISOString();
+          try {
+            const fileUrl = await uploadFileToGitHub(file, title);
+            newDoc.url = fileUrl;
 
-        const newDoc = {
-        meta: metaStream.get(),
-        category: categoryStream.get(),
-        title,
-        status: statusStream.get(),
-        filename: file.name,
-        createdAt: index >= 0 ? docs[index].createdAt : now,
-        lastUpdated: now,
-        id: title,
-        };
+            await updateDocumentIndex(newDoc);
 
-        try {
-        const fileUrl = await uploadFileToGitHub(file, title);
-        newDoc.url = fileUrl;
+            if (index >= 0) {
+              docs[index] = newDoc;
+            } else {
+              docs.push(newDoc);
+            }
 
-        await updateDocumentIndex(newDoc);
-
-        if (index >= 0) {
-            docs[index] = newDoc;
-        } else {
-            docs.push(newDoc);
-        }
-
-        documentsStream.set([...docs]);
-        showFormStream.set(false);
-        } catch (err) {
-        alert("Error uploading document: " + err.message);
-        } finally {
-        isSaving.set(false);
-        }
-    }, { margin: '0.5rem 0', rounded: true }, themeStream);
-    })()
+            documentsStream.set([...docs]);
+            showFormStream.set(false);
+          } catch (err) {
+            alert("Error uploading document: " + err.message);
+          } finally {
+            isSaving.set(false);
+          }
+        }, { margin: '0.5rem 0', rounded: true }, themeStream);
+      })()
     ], {});
 
     modal.appendChild(content);

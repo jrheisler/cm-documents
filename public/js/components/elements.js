@@ -66,7 +66,10 @@ function reactiveText(stream, options = {}, themeStream = currentTheme) {
 
 function editText(stream, options = {}, themeStream = currentTheme) {
   const input = document.createElement('input');
-  input.type = 'text';
+  
+  // Set input type based on options
+  input.type = options.type || 'text'; // Default is 'text', but can be 'password' if specified
+
   input.value = stream.get();
   input.placeholder = options.placeholder || '';
 
@@ -74,7 +77,7 @@ function editText(stream, options = {}, themeStream = currentTheme) {
     const fonts = theme.fonts || {};
     const colors = theme.colors || {};
 
-    // ✅ This line was missing
+    // Apply theme styles
     applyTheme(input, options);
 
     input.style.fontSize = options.size || '1rem';
@@ -96,7 +99,6 @@ function editText(stream, options = {}, themeStream = currentTheme) {
     stream.set(input.value);
   });
 
-  
   const unsub1 = themeStream.subscribe(theme => applyStyles(theme));
   applyStyles(themeStream.get()); // Initial style
 
@@ -106,8 +108,7 @@ function editText(stream, options = {}, themeStream = currentTheme) {
     }
   });
   
-  observeDOMRemoval(input, unsub1, unsub2); // 🔥 Auto cleanup when node removed
-
+  observeDOMRemoval(input, unsub1, unsub2); // Auto cleanup when node removed
 
   return input;
 }
@@ -450,7 +451,7 @@ function groupedDocumentGrid(documentsStream, expandedStream, themeStream = curr
     searchStream.set(searchInput.value);
   });
 
-  wrapper.appendChild(searchInput);
+  
 
     // Restore expanded state from localStorage if available
 const savedExpanded = localStorage.getItem('docGroupsExpanded');
@@ -517,10 +518,13 @@ const toggleAllBtn = iconButton('⇄', () => {
   localStorage.setItem('docGroupsExpanded', JSON.stringify(toggled));
 }, 'Toggle All');
 
+
 controlBar.appendChild(expandAllBtn);
 controlBar.appendChild(collapseAllBtn);
 controlBar.appendChild(toggleAllBtn);
-wrapper.appendChild(controlBar);
+
+const searchRow = row([searchInput, controlBar]);
+wrapper.appendChild(searchRow);
 wrapper.appendChild(contentWrapper);
 
   const colWidthsStream = derived([documentsStream], (docs) => {

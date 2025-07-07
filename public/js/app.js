@@ -64,10 +64,10 @@ function settingsModal(showModalStream, themeStream = currentTheme) {
     // Create form inputs
     const content = column([container(
       [
-      editText(githubUsernameStream, { placeholder: 'GitHub Username', margin: '0.5rem 0' }, themeStream),
-      editText(githubTokenStream, {type: 'password', placeholder: 'GitHub Token', margin: '0.5rem 0' }, themeStream),
-      editText(repoOwnerStream, { placeholder: 'Repository Owner', margin: '0.5rem 0' }, themeStream),
-      editText(repoNameStream, { placeholder: 'Repository Name', margin: '0.5rem 0' }, themeStream),     
+      row([editText(githubUsernameStream, { placeholder: 'GitHub Username', margin: '0.5rem 0' }, themeStream), spacer()]),
+      row([editText(githubTokenStream, {type: 'password', placeholder: 'GitHub Token', margin: '0.5rem 0' }, themeStream), spacer()]),
+      row([editText(repoOwnerStream, { placeholder: 'Repository Owner', margin: '0.5rem 0' }, themeStream), spacer()]),
+      row([editText(repoNameStream, { placeholder: 'Repository Name', margin: '0.5rem 0' }, themeStream), spacer()]),   
       (() => {
         const isSaving = new Stream(false);
         const saveLabel = derived(isSaving, val => val ? "Saving..." : "Save");
