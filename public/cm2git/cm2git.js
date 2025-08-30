@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.getElementById('app');
+  let allActivities = [];
+
+  function createSelect(options) {
+    const select = document.createElement('select');
+    options.forEach(({ value, label }) => {
+      const opt = document.createElement('option');
+      opt.value = value;
+      opt.textContent = label;
+      select.appendChild(opt);
+    });
+    return select;
+  }
 
   function createInput(key, placeholder, type = 'text') {
     const input = document.createElement('input');
@@ -116,10 +128,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const repoInput = createInput('cm2git-repo', 'Repo');
     const tokenInput = createInput('cm2git-token', 'Personal Access Token', 'password');
 
+    const filterSelect = createSelect([
+      { value: 'all', label: 'All' },
+      { value: 'PR', label: 'PR' },
+      { value: 'commit', label: 'Commit' },
+      { value: 'merge', label: 'Merge' },
+    ]);
+
+    const sortSelect = createSelect([
+      { value: 'desc', label: 'Newest First' },
+      { value: 'asc', label: 'Oldest First' },
+    ]);
+
     const button = document.createElement('button');
     button.textContent = 'Load Activity';
     const activityContainer = document.createElement('div');
     activityContainer.id = 'activity';
+
+    function applyAndRender() {
+      let filtered = [...allActivities];
+      const type = filterSelect.value;
+      if (type !== 'all') {
+        filtered = filtered.filter((a) => a.type === type);
+      }
+      filtered.sort((a, b) =>
+        sortSelect.value === 'asc'
+          ? new Date(a.date) - new Date(b.date)
+          : new Date(b.date) - new Date(a.date)
+      );
+      renderActivities(filtered, activityContainer);
+    }
+
+    filterSelect.addEventListener('change', applyAndRender);
+    sortSelect.addEventListener('change', applyAndRender);
 
     button.addEventListener('click', async () => {
       const owner = ownerInput.value.trim();
@@ -129,13 +170,15 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Owner, repo, and token are required');
         return;
       }
-      const activities = await loadActivity(owner, repo, token);
-      renderActivities(activities, activityContainer);
+      allActivities = await loadActivity(owner, repo, token);
+      applyAndRender();
     });
 
     app.appendChild(ownerInput);
     app.appendChild(repoInput);
     app.appendChild(tokenInput);
+    app.appendChild(filterSelect);
+    app.appendChild(sortSelect);
     app.appendChild(button);
     app.appendChild(activityContainer);
   }
