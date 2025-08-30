@@ -13,14 +13,61 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function loadActivity(owner, repo, token) {
+    const headers = { Authorization: `token ${token}` };
     try {
-      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await response.json();
-      console.log('Activity loaded', data);
+      const [pullRes, commitRes, eventRes] = await Promise.all([
+        fetch(`https://api.github.com/repos/${owner}/${repo}/pulls?state=all`, {
+          headers,
+        }),
+        fetch(`https://api.github.com/repos/${owner}/${repo}/commits`, {
+          headers,
+        }),
+        fetch(`https://api.github.com/repos/${owner}/${repo}/events`, {
+          headers,
+        }),
+      ]);
+
+      const [pulls, commits, events] = await Promise.all([
+        pullRes.json(),
+        commitRes.json(),
+        eventRes.json(),
+      ]);
+
+      const activities = [
+        ...pulls.map((pr) => ({
+          type: 'pull',
+          id: pr.id,
+          title: pr.title,
+          url: pr.html_url,
+          date: pr.created_at,
+        })),
+        ...commits.map((c) => ({
+          type: 'commit',
+          id: c.sha,
+          title: c.commit.message.split('\n')[0],
+          url: c.html_url,
+          date: c.commit.author?.date || c.commit.committer?.date,
+        })),
+        ...events
+          .filter(
+            (e) =>
+              e.type === 'PullRequestEvent' &&
+              e.payload?.pull_request?.merged
+          )
+          .map((e) => ({
+            type: 'merge',
+            id: e.id,
+            title: e.payload.pull_request.title,
+            url: e.payload.pull_request.html_url,
+            date: e.created_at,
+          })),
+      ].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      console.log('Activity loaded', activities);
+      return activities;
     } catch (err) {
       console.error('Failed to load activity', err);
+      return [];
     }
   }
 
