@@ -35,11 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const activities = [
         ...pulls.map((pr) => ({
-          type: 'pull',
+          type: 'PR',
           id: pr.id,
           title: pr.title,
           url: pr.html_url,
           date: pr.created_at,
+          author: pr.user?.login || 'unknown',
         })),
         ...commits.map((c) => ({
           type: 'commit',
@@ -47,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
           title: c.commit.message.split('\n')[0],
           url: c.html_url,
           date: c.commit.author?.date || c.commit.committer?.date,
+          author:
+            c.author?.login ||
+            c.commit.author?.name ||
+            c.commit.committer?.name ||
+            'unknown',
         })),
         ...events
           .filter(
@@ -60,6 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
             title: e.payload.pull_request.title,
             url: e.payload.pull_request.html_url,
             date: e.created_at,
+            author:
+              e.actor?.login ||
+              e.payload.pull_request.user?.login ||
+              'unknown',
           })),
       ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -71,6 +81,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function renderActivities(activities, container) {
+    container.innerHTML = '';
+    activities.forEach((activity) => {
+      const item = document.createElement('a');
+      item.className = 'activity-item';
+      item.href = activity.url;
+      item.target = '_blank';
+      item.rel = 'noopener noreferrer';
+
+      const type = document.createElement('div');
+      type.className = 'activity-type';
+      type.textContent = activity.type;
+
+      const title = document.createElement('div');
+      title.className = 'activity-title';
+      title.textContent = activity.title;
+
+      const author = document.createElement('div');
+      author.className = 'activity-author';
+      author.textContent = activity.author;
+
+      const date = document.createElement('div');
+      date.className = 'activity-date';
+      date.textContent = new Date(activity.date).toLocaleString();
+
+      item.append(type, title, author, date);
+      container.appendChild(item);
+    });
+  }
+
   function bootstrap() {
     const ownerInput = createInput('cm2git-owner', 'Owner');
     const repoInput = createInput('cm2git-repo', 'Repo');
@@ -78,7 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const button = document.createElement('button');
     button.textContent = 'Load Activity';
-    button.addEventListener('click', () => {
+    const activityContainer = document.createElement('div');
+    activityContainer.id = 'activity';
+
+    button.addEventListener('click', async () => {
       const owner = ownerInput.value.trim();
       const repo = repoInput.value.trim();
       const token = tokenInput.value.trim();
@@ -86,13 +129,15 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Owner, repo, and token are required');
         return;
       }
-      loadActivity(owner, repo, token);
+      const activities = await loadActivity(owner, repo, token);
+      renderActivities(activities, activityContainer);
     });
 
     app.appendChild(ownerInput);
     app.appendChild(repoInput);
     app.appendChild(tokenInput);
     app.appendChild(button);
+    app.appendChild(activityContainer);
   }
 
   if (app) {
