@@ -8,6 +8,13 @@ body {
   padding: 1rem;
 }
 
+#app > select,
+#app > button,
+#app > input {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 #activity {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
