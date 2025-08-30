@@ -141,18 +141,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Streams
   const documentsStream = new Stream([]);
   const showFormStream = new Stream(false);
+  const loadingStream = new Stream(false);
+  const errorStream = new Stream('');
+  const loadingMessageStream = derived(loadingStream, v => v ? 'Loading...' : '');
   const knownCategoriesStream = derived(documentsStream, docs => {
     const set = new Set(docs.map(doc => doc.category?.trim()).filter(Boolean));
     return Array.from(set).sort();
   });
 
   // 🟡 Fetch index.json and hydrate the stream
+  loadingStream.set(true);
   try {
     const indexData = await fetchDocumentIndexFromGitHub();
     documentsStream.set(indexData); // Hydrate the grid with document metadata
   } catch (err) {
-    console.warn("Using empty index as fallback.");
+    console.warn('Using empty index as fallback.', err);
+    errorStream.set(err.message || 'Failed to fetch documents. Please verify your token and repository.');
     documentsStream.set([]); // Fallback: start with empty list
+  } finally {
+    loadingStream.set(false);
   }
 
   const showModalStream = new Stream(false);
@@ -191,6 +198,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           themedThemeSelector()
         ])
       ),
+      reactiveText(loadingMessageStream, { align: 'center' }),
+      reactiveText(errorStream, { color: 'red', margin: '0.5rem 0' }),
       documentListContainer(documentsStream, expandedCategories, currentTheme, ['title', 'status', 'meta', 'filename', 'lastUpdated', 'download'])
     ])
   );

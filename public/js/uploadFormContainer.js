@@ -24,20 +24,25 @@ function base64Decode(str) {
 
 
 async function fetchDocumentIndexFromGitHub() {
-  const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${repoPath}/index.json`, {
-    headers: {
-      'Authorization': `token ${githubToken}`
+  try {
+    const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${repoPath}/index.json`, {
+      headers: {
+        'Authorization': `token ${githubToken}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Request failed');
     }
-  });
 
-  if (!response.ok) {
-    console.error("Failed to fetch index.json:", await response.text());
-    throw new Error("Unable to fetch document index from GitHub.");
+    const result = await response.json(); // ✅ This works with metadata response
+    const decodedContent = atob(result.content); // Base64 → string
+    return JSON.parse(decodedContent);           // string → object[]
+  } catch (err) {
+    console.error('Failed to fetch index.json:', err);
+    throw new Error('Unable to fetch document index from GitHub. Please verify your token and repository settings.');
   }
-
-  const result = await response.json(); // ✅ This works with metadata response
-  const decodedContent = atob(result.content); // Base64 → string
-  return JSON.parse(decodedContent);           // string → object[]
 }
 
 
