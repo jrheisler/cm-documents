@@ -1,0 +1,9 @@
+/* Styles for CM2Git SPA */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#app {
+  padding: 1rem;
+}
