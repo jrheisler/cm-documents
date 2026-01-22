@@ -1,0 +1,65 @@
+{
+  "nodes": [
+    {
+      "id": "C:\\source\\cm-documents\\public\\js\\app.js",
+      "type": "file",
+      "state": "used",
+      "lang": "js",
+      "sizeLOC": 168,
+      "hasSideEffects": false,
+      "inDeg": 0,
+      "outDeg": 0
+    },
+    {
+      "id": "C:\\source\\cm-documents\\public\\js\\components\\elements.js",
+      "type": "file",
+      "state": "used",
+      "lang": "js",
+      "sizeLOC": 1122,
+      "hasSideEffects": false,
+      "inDeg": 0,
+      "outDeg": 0
+    },
+    {
+      "id": "C:\\source\\cm-documents\\public\\js\\components\\layout.js",
+      "type": "file",
+      "state": "used",
+      "lang": "js",
+      "sizeLOC": 83,
+      "hasSideEffects": false,
+      "inDeg": 0,
+      "outDeg": 0
+    },
+    {
+      "id": "C:\\source\\cm-documents\\public\\js\\core\\stream.js",
+      "type": "file",
+      "state": "used",
+      "lang": "js",
+      "sizeLOC": 94,
+      "hasSideEffects": false,
+      "inDeg": 0,
+      "outDeg": 0
+    },
+    {
+      "id": "C:\\source\\cm-documents\\public\\js\\core\\theme.js",
+      "type": "file",
+      "state": "used",
+      "lang": "js",
+      "sizeLOC": 249,
+      "hasSideEffects": false,
+      "inDeg": 0,
+      "outDeg": 0
+    },
+    {
+      "id": "C:\\source\\cm-documents\\public\\js\\uploadFormContainer.js",
+      "type": "file",
+      "state": "used",
+      "lang": "js",
+      "sizeLOC": 329,
+      "hasSideEffects": false,
+      "inDeg": 0,
+      "outDeg": 0
+    }
+  ],
+  "edges": []
+}

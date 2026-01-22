@@ -1,0 +1,484 @@
+{
+  "mergedGraphVersion": "2.0.0",
+  "securitySchemaVersion": "1.0.0",
+  "nodes": [
+    {
+      "absPath": "C:\\source\\cm-documents\\public\\js\\app.js",
+      "hasSideEffects": false,
+      "id": "C:/source/cm-documents/public/js/app.js",
+      "inDeg": 0,
+      "lang": "js",
+      "outDeg": 0,
+      "sha256": "13d85eb2d2072244fa31664a1f30c2aab592dcb72a8998c88032dfce7a894f2f",
+      "sizeLOC": 168,
+      "state": "used",
+      "type": "file"
+    },
+    {
+      "absPath": "C:\\source\\cm-documents\\public\\js\\components\\elements.js",
+      "hasSideEffects": false,
+      "id": "C:/source/cm-documents/public/js/components/elements.js",
+      "inDeg": 0,
+      "lang": "js",
+      "outDeg": 0,
+      "sha256": "aa4701485b10c1f7500718bfbf67ddacc705f2f2776d52333969eb0dfcecb12c",
+      "sizeLOC": 1122,
+      "state": "used",
+      "type": "file"
+    },
+    {
+      "absPath": "C:\\source\\cm-documents\\public\\js\\components\\layout.js",
+      "hasSideEffects": false,
+      "id": "C:/source/cm-documents/public/js/components/layout.js",
+      "inDeg": 0,
+      "lang": "js",
+      "outDeg": 0,
+      "sha256": "7d4114e3215194fbdd72e780a49d15b671992df13dcbaa30add93348f61927d4",
+      "sizeLOC": 83,
+      "state": "used",
+      "type": "file"
+    },
+    {
+      "absPath": "C:\\source\\cm-documents\\public\\js\\core\\stream.js",
+      "hasSideEffects": false,
+      "id": "C:/source/cm-documents/public/js/core/stream.js",
+      "inDeg": 0,
+      "lang": "js",
+      "outDeg": 0,
+      "sha256": "3b7efcf6cc1ca240ee20a12ad17741ab88910daab1f1156b8223207355bb4d41",
+      "sizeLOC": 94,
+      "state": "used",
+      "type": "file"
+    },
+    {
+      "absPath": "C:\\source\\cm-documents\\public\\js\\core\\theme.js",
+      "hasSideEffects": false,
+      "id": "C:/source/cm-documents/public/js/core/theme.js",
+      "inDeg": 0,
+      "lang": "js",
+      "outDeg": 0,
+      "sha256": "119b619f150ae0c293253c1b3e4e4d41a9b42f85994cef8885322176c727f82e",
+      "sizeLOC": 249,
+      "state": "used",
+      "type": "file"
+    },
+    {
+      "absPath": "C:\\source\\cm-documents\\public\\js\\uploadFormContainer.js",
+      "hasSideEffects": false,
+      "id": "C:/source/cm-documents/public/js/uploadFormContainer.js",
+      "inDeg": 0,
+      "lang": "js",
+      "outDeg": 0,
+      "sha256": "612a2707d1ba2ddaa7990c6e1870986ce8501de34641c2b703c7babcd9be8cba",
+      "sizeLOC": 329,
+      "state": "used",
+      "type": "file"
+    }
+  ],
+  "edges": [],
+  "dataGraph": {
+    "schemaVersion": 1,
+    "shapes": [
+      {
+        "id": "C:/source/cm-documents/public/js/app.js",
+        "kind": "file",
+        "name": "app.js",
+        "file": "C:/source/cm-documents/public/js/app.js",
+        "language": "js"
+      },
+      {
+        "id": "C:/source/cm-documents/public/js/components/elements.js",
+        "kind": "file",
+        "name": "elements.js",
+        "file": "C:/source/cm-documents/public/js/components/elements.js",
+        "language": "js"
+      },
+      {
+        "id": "C:/source/cm-documents/public/js/components/layout.js",
+        "kind": "file",
+        "name": "layout.js",
+        "file": "C:/source/cm-documents/public/js/components/layout.js",
+        "language": "js"
+      },
+      {
+        "id": "C:/source/cm-documents/public/js/core/stream.js",
+        "kind": "file",
+        "name": "stream.js",
+        "file": "C:/source/cm-documents/public/js/core/stream.js",
+        "language": "js"
+      },
+      {
+        "id": "C:/source/cm-documents/public/js/core/theme.js",
+        "kind": "file",
+        "name": "theme.js",
+        "file": "C:/source/cm-documents/public/js/core/theme.js",
+        "language": "js"
+      },
+      {
+        "id": "C:/source/cm-documents/public/js/uploadFormContainer.js",
+        "kind": "file",
+        "name": "uploadFormContainer.js",
+        "file": "C:/source/cm-documents/public/js/uploadFormContainer.js",
+        "language": "js"
+      }
+    ],
+    "containers": [],
+    "boundaries": [],
+    "flows": [],
+    "classifications": [],
+    "schemaLinks": [],
+    "rollups": {
+      "shapes": 6,
+      "containers": 0,
+      "boundaries": 0,
+      "flows": 0,
+      "classifiedFields": {
+        "private": 0,
+        "public": 0,
+        "shared": 0,
+        "unknown": 0
+      },
+      "warnings": []
+    },
+    "findings": []
+  },
+  "metadata": {
+    "securityFindings": {
+      "rawCount": 2,
+      "uniqueCount": 2,
+      "duplicatesRemoved": 0,
+      "dedupStrategy": "bucket(file|ruleId|key|value)"
+    },
+    "securityFindingsSummary": {
+      "total": 2,
+      "bySeverity": {
+        "info": 2
+      },
+      "byRuleId": {
+        "nexus-platform:platform-lang-js": 1,
+        "nexus-platform:platform-os-windows": 1
+      },
+      "byFile": {
+        "graph": 1,
+        "host": 1
+      },
+      "byCategory": {
+        "security": 2
+      },
+      "topRules": [
+        {
+          "id": "nexus-platform:platform-lang-js",
+          "count": 1
+        },
+        {
+          "id": "nexus-platform:platform-os-windows",
+          "count": 1
+        }
+      ]
+    },
+    "securitySummary": {
+      "total": 2,
+      "bySeverity": {
+        "info": 2
+      },
+      "byRuleId": {
+        "nexus-platform:platform-lang-js": 1,
+        "nexus-platform:platform-os-windows": 1
+      },
+      "byFile": {
+        "graph": 1,
+        "host": 1
+      },
+      "byCategory": {
+        "security": 2
+      },
+      "topRules": [
+        {
+          "id": "nexus-platform:platform-lang-js",
+          "count": 1
+        },
+        {
+          "id": "nexus-platform:platform-os-windows",
+          "count": 1
+        }
+      ]
+    },
+    "iacSummary": null,
+    "scap_summary": {
+      "rulesTotal": 0,
+      "rulesFailed": 0,
+      "rulesPassed": 0,
+      "rulesError": 0,
+      "rulesNotChecked": 0,
+      "rulesUnknown": 0,
+      "occurrencesTotal": 0,
+      "filesImpacted": 0,
+      "severityBreakdown": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0
+      },
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0
+      }
+    },
+    "security": {
+      "totalFindings": 2
+    }
+  },
+  "securityFindings": {
+    "graph": [
+      {
+        "id": "nexus-platform:platform-lang-js",
+        "message": "Detected Language: js",
+        "severity": "info",
+        "file": "graph",
+        "source": "nexus-platform",
+        "line": 0,
+        "ruleId": "nexus-platform:platform-lang-js",
+        "confidence": 1.0
+      }
+    ],
+    "host": [
+      {
+        "id": "nexus-platform:platform-os-windows",
+        "message": "Detected Host OS: windows",
+        "severity": "info",
+        "file": "host",
+        "source": "nexus-platform",
+        "line": 0,
+        "ruleId": "nexus-platform:platform-os-windows",
+        "confidence": 1.0
+      }
+    ]
+  },
+  "security": {
+    "rules": [
+      {
+        "id": "nexus-platform:platform-lang-js",
+        "title": "Detected Language: js",
+        "message": "Detected Language: js",
+        "severity": "info",
+        "source": "nexus-platform",
+        "category": "security",
+        "scap": {
+          "source": "SCAP",
+          "cpe": "cpe:2.3:a:js:*:*:*:*:*:*:*"
+        }
+      },
+      {
+        "id": "nexus-platform:platform-os-windows",
+        "title": "Detected Host OS: windows",
+        "message": "Detected Host OS: windows",
+        "severity": "info",
+        "source": "nexus-platform",
+        "category": "security",
+        "scap": {
+          "source": "SCAP",
+          "cpe": "cpe:2.3:o:windows:*:*:*:*:*:*:*"
+        }
+      }
+    ],
+    "occurrences": [
+      {
+        "ruleId": "nexus-platform:platform-lang-js",
+        "ruleKey": "nexus-platform:platform-lang-js",
+        "filePath": "graph",
+        "severity": "info",
+        "category": "security",
+        "line": 0,
+        "evidence": [
+          "graph"
+        ],
+        "confidence": 1.0
+      },
+      {
+        "ruleId": "nexus-platform:platform-os-windows",
+        "ruleKey": "nexus-platform:platform-os-windows",
+        "filePath": "host",
+        "severity": "info",
+        "category": "security",
+        "line": 0,
+        "evidence": [
+          "host"
+        ],
+        "confidence": 1.0
+      }
+    ],
+    "summary": {
+      "total": 2,
+      "bySeverity": {
+        "info": 2
+      },
+      "byRuleId": {
+        "nexus-platform:platform-lang-js": 1,
+        "nexus-platform:platform-os-windows": 1
+      },
+      "byFile": {
+        "graph": 1,
+        "host": 1
+      },
+      "byCategory": {
+        "security": 2
+      },
+      "topRules": [
+        {
+          "id": "nexus-platform:platform-lang-js",
+          "count": 1
+        },
+        {
+          "id": "nexus-platform:platform-os-windows",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "platform-lang-js",
+      "severity": "info",
+      "message": "Detected Language: js",
+      "source": "nexus-platform",
+      "location": "graph",
+      "file": "graph",
+      "kind": "platform",
+      "type": "platform",
+      "category": "security",
+      "confidence": 1.0,
+      "rationale": "graph_language_detection",
+      "locations": [
+        {
+          "path": "graph",
+          "line": 0
+        }
+      ],
+      "evidence": [
+        "graph"
+      ],
+      "scapRefs": {
+        "cpe": "cpe:2.3:a:js:*:*:*:*:*:*:*"
+      }
+    },
+    {
+      "id": "platform-os-windows",
+      "severity": "info",
+      "message": "Detected Host OS: windows",
+      "source": "nexus-platform",
+      "location": "host",
+      "file": "host",
+      "kind": "platform",
+      "type": "platform",
+      "category": "security",
+      "confidence": 1.0,
+      "rationale": "host_os_detection",
+      "locations": [
+        {
+          "path": "host",
+          "line": 0
+        }
+      ],
+      "evidence": [
+        "host"
+      ],
+      "scapRefs": {
+        "cpe": "cpe:2.3:o:windows:*:*:*:*:*:*:*"
+      }
+    }
+  ],
+  "compliance": {
+    "tool": {
+      "name": "nexus",
+      "version": "2.0.0",
+      "vendor": "nurox"
+    },
+    "generatedAt": "2026-01-22T14:53:05.330800Z",
+    "sources": [],
+    "benchmarks": [],
+    "profiles": [],
+    "rollups": {
+      "totalFindings": 0,
+      "totalOccurrences": 0,
+      "bySeverity": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0
+      },
+      "byProfile": [],
+      "byBenchmark": []
+    },
+    "findings": [],
+    "occurrences": [],
+    "summary": {
+      "rulesTotal": 0,
+      "rulesFailed": 0,
+      "rulesPassed": 0,
+      "rulesError": 0,
+      "rulesNotChecked": 0,
+      "rulesUnknown": 0,
+      "occurrencesTotal": 0,
+      "filesImpacted": 0,
+      "severityBreakdown": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0
+      },
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0
+      }
+    },
+    "debug": {
+      "rawOccurrenceCount": 0,
+      "dedupedOccurrenceCount": 0
+    }
+  },
+  "complianceFindings": [],
+  "complianceOccurrences": [],
+  "securityFindingsList": [
+    {
+      "id": "nexus-platform:platform-lang-js",
+      "message": "Detected Language: js",
+      "severity": "info",
+      "category": "code-security",
+      "tool": "nexus-platform",
+      "confidence": 1.0,
+      "fingerprint": "",
+      "locations": [
+        {
+          "file": "graph"
+        }
+      ],
+      "file": "graph",
+      "ruleId": "nexus-platform:platform-lang-js"
+    },
+    {
+      "id": "nexus-platform:platform-os-windows",
+      "message": "Detected Host OS: windows",
+      "severity": "info",
+      "category": "code-security",
+      "tool": "nexus-platform",
+      "confidence": 1.0,
+      "fingerprint": "",
+      "locations": [
+        {
+          "file": "host"
+        }
+      ],
+      "file": "host",
+      "ruleId": "nexus-platform:platform-os-windows"
+    }
+  ]
+}
